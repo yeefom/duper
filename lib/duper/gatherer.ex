@@ -16,6 +16,7 @@ defmodule Duper.Gatherer do
   end
 
   def init(worker_count) do
+    Process.send_after(self(), :kickoff_workers, 0)
     { :ok, worker_count }
   end
 
@@ -30,6 +31,12 @@ defmodule Duper.Gatherer do
 
   def handle_cast({ :add_result, hash, path }, worker_count) do
     Duper.Results.add(hash, path)
+    { :noreply, worker_count }
+  end
+
+  def handle_info(:kickoff_workers, worker_count) do
+    1..worker_count |> Enum.each(fn _ -> Duper.WorkerSupervisor.add_worker() end)
+
     { :noreply, worker_count }
   end
 
