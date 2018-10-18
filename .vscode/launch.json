@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "mix_task",
+      "request": "launch",
+      "name": "mix run --no-halt",
+      "task": "run",
+      "taskArgs": [
+        "--no-halt"
+      ],
+      "projectDir": "${workspaceRoot}"
+    },
+    {
+      "type": "mix_task",
+      "name": "mix test",
+      "request": "launch",
+      "task": "test",
+      "taskArgs": [
+        "--trace"
+      ],
+      "startApps": true,
+      "projectDir": "${workspaceRoot}",
+      "requireFiles": [
+        "test/**/test_helper.exs",
+        "test/**/*_test.exs"
+      ]
+    }
+  ]
+}
